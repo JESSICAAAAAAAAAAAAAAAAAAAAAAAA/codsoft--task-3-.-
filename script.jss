@@ -1,19 +1,26 @@
-function appendValue(val) {
-  document.getElementById("display").value += val;
-}
+const display = document.getElementById('display');
+const buttons = document.querySelectorAll('button');
 
-function clearDisplay() {
-  document.getElementById("display").value = '';
-}
+let currentInput = '';
 
-function calculate() {
-  try {
-    const result = eval(document.getElementById("display").value);
-    document.getElementById("display").value = result;
-  } catch (e) {
-    alert("Invalid Expression");
-    clearDisplay();
-  }
-}
+buttons.forEach(button => {
+  button.addEventListener('click', () => {
+    const value = button.textContent;
 
-
+    if (value === 'C') {
+      currentInput = '';
+      display.value = '';
+    } else if (value === '=') {
+      try {
+        currentInput = eval(currentInput).toString();
+        display.value = currentInput;
+      } catch {
+        display.value = 'Error';
+        currentInput = '';
+      }
+    } else {
+      currentInput += value;
+      display.value = currentInput;
+    }
+  });
+});
